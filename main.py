@@ -3,12 +3,20 @@ import cohere
 import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 API_KEY = os.getenv("COHERE_API_KEY")
 co = cohere.Client(API_KEY)
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (change later for security)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class TutorRequest(BaseModel):
     question: str
